@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/pwa-192x192.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1585f7" />
+    <meta name="description" content="QR Code Scanner for ticket validation and management" />
+    
+    <!-- Enhanced PWA Meta Tags -->
+    <link rel="canonical" href="/" />
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="QR Scan" />
+    <meta name="application-name" content="QR Scan" />
+    
+    <!-- PWA Display Mode -->
+    <meta name="display-mode" content="standalone" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="/pwa-192x192.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/pwa-152x152.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/pwa-192x192.png" />
+    
+    <!-- Windows/IE Meta Tags -->
+    <meta name="msapplication-TileColor" content="#1585f7" />
+    <meta name="msapplication-TileImage" content="/pwa-144x144.png" />
+    <meta name="msapplication-navbutton-color" content="#1585f7" />
+    <meta name="msapplication-starturl" content="/" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    
+    <!-- Additional PWA Meta Tags -->
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="screen-orientation" content="portrait" />
+    <meta name="full-screen" content="yes" />
+    <meta name="browsermode" content="application" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/sw.js" as="script" />
+    <link rel="preload" href="/manifest.json" as="fetch" crossorigin="anonymous" />
+    
+    <title>QR Scan</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

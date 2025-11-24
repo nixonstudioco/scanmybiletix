@@ -1,0 +1,87 @@
+{
+  "name": "famous-summer-club-scan",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "electron": "electron .",
+    "electron-dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
+    "electron-build": "npm run build && electron-builder",
+    "dist": "npm run build && electron-builder --publish=never",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.7",
+    "@types/qrcode": "^1.5.5",
+    "axios": "^1.6.7",
+    "dexie": "^3.2.4",
+    "html5-qrcode": "^2.3.8",
+    "jsbarcode": "^3.12.1",
+    "lucide-react": "^0.344.0",
+    "papaparse": "^5.4.1",
+    "qrcode": "^1.5.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-dropzone": "^14.2.3",
+    "react-router-dom": "^6.22.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.1",
+    "@types/papaparse": "^5.3.14",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.18",
+    "concurrently": "^8.2.2",
+    "electron": "^28.3.3",
+    "electron-builder": "^24.13.3",
+    "eslint": "^9.9.1",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.11",
+    "globals": "^15.9.0",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.3.0",
+    "vite": "^5.4.2",
+    "wait-on": "^7.2.0"
+  },
+  "main": "electron/main.js",
+  "homepage": "./",
+  "build": {
+    "appId": "com.famousclub.qrscan",
+    "productName": "QR Scan",
+    "directories": {
+      "output": "electron-dist"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "node_modules/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "dist",
+        "to": "app",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "public/pwa-512x512.png"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "public/pwa-512x512.png"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "public/pwa-512x512.png"
+    }
+  }
+}

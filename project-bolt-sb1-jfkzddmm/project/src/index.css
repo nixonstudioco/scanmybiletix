@@ -1,0 +1,426 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Enhanced Glass morphism utilities */
+@layer utilities {
+  .glass {
+    background: rgba(188, 87, 255, 0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 
+      0 8px 32px 0 rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  }
+  
+  .glass-hover:hover {
+    background: rgba(188, 87, 255, 0.12);
+    transform: translateY(-1px);
+    box-shadow: 
+      0 12px 40px 0 rgba(0, 0, 0, 0.25),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+  }
+  
+  .glass-button {
+    background: linear-gradient(
+      135deg, 
+      rgba(188, 87, 255, 0.15) 0%, 
+      rgba(139, 61, 255, 0.08) 100%
+    );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 
+      0 4px 16px 0 rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.2),
+      inset 0 -1px 0 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .glass-button:hover {
+    background: linear-gradient(
+      135deg, 
+      rgba(188, 87, 255, 0.22) 0%, 
+      rgba(139, 61, 255, 0.12) 100%
+    );
+    transform: translateY(-2px);
+    box-shadow: 
+      0 8px 24px 0 rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.25),
+      inset 0 -1px 0 0 rgba(0, 0, 0, 0.1);
+  }
+  
+  .glass-button:active {
+    transform: translateY(0);
+    box-shadow: 
+      0 2px 8px 0 rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.15),
+      inset 0 -1px 0 0 rgba(0, 0, 0, 0.1);
+  }
+  
+  .glass-card {
+    background: rgba(26, 29, 38, 0.85);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(188, 87, 255, 0.15);
+    box-shadow: 
+      0 8px 32px 0 rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  }
+  
+  .glass-input {
+    background: rgba(26, 29, 38, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(188, 87, 255, 0.25);
+    box-shadow: 
+      inset 0 2px 4px 0 rgba(0, 0, 0, 0.3),
+      0 1px 0 0 rgba(255, 255, 255, 0.1);
+  }
+  
+  .glass-input:focus {
+    border-color: rgba(188, 87, 255, 0.5);
+    box-shadow: 
+      inset 0 2px 4px 0 rgba(0, 0, 0, 0.3),
+      0 0 0 3px rgba(188, 87, 255, 0.1),
+      0 1px 0 0 rgba(255, 255, 255, 0.1);
+  }
+  
+  .gradient-mauve {
+    background: linear-gradient(135deg, #bc57ff, #8b3dff, #7c2dff);
+  }
+  
+  .gradient-mauve-light {
+    background: linear-gradient(135deg, #d4bcff, #bb94ff, #a166ff);
+  }
+  
+  .gradient-shadow {
+    background: linear-gradient(135deg, #9a75ff, #8651ff, #7737ff);
+  }
+  
+  .gradient-dark {
+    background: linear-gradient(135deg, #2a2d3a, #1a1d26, #0f111a);
+  }
+}
+
+/* Modern compact button utilities */
+@layer components {
+  .btn-square {
+    aspect-ratio: 1 / 1;
+    min-width: 36px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .btn-square-lg {
+    aspect-ratio: 1 / 1;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .btn-rect {
+    min-height: 36px;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+  }
+  
+  .btn-rect-lg {
+    min-height: 44px;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+  }
+}
+
+/* Animation for scan results */
+@keyframes appear {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes scanner-line {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(24rem); /* h-96 */
+  }
+}
+
+.animate-appear {
+  animation: appear 0.5s ease-out forwards;
+}
+
+.animate-scanner-line {
+  animation: scanner-line 2s linear infinite;
+}
+
+/* Bounce in animation for scan results */
+@keyframes bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.98);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.5s ease-out forwards;
+}
+
+/* Subtle pulse animation for success/error (no glow) */
+@keyframes success-pulse {
+  0% {
+    border-color: rgba(34, 197, 94, 0.5);
+  }
+  50% {
+    border-color: rgba(34, 197, 94, 0.8);
+  }
+  100% {
+    border-color: rgba(34, 197, 94, 0.5);
+  }
+}
+
+@keyframes error-pulse {
+  0% {
+    border-color: rgba(220, 38, 38, 0.5);
+  }
+  50% {
+    border-color: rgba(220, 38, 38, 0.8);
+  }
+  100% {
+    border-color: rgba(220, 38, 38, 0.5);
+  }
+}
+
+/* Subtle border animations (no glow) */
+@keyframes border-success {
+  0%, 100% {
+    border-color: rgba(34, 197, 94, 0.6);
+  }
+  50% {
+    border-color: rgba(34, 197, 94, 0.9);
+  }
+}
+
+@keyframes border-error {
+  0%, 100% {
+    border-color: rgba(220, 38, 38, 0.6);
+  }
+  50% {
+    border-color: rgba(220, 38, 38, 0.9);
+  }
+}
+
+.animate-border-success {
+  animation: border-success 2s infinite;
+}
+
+.animate-border-error {
+  animation: border-error 2s infinite;
+}
+
+/* Scale animation for result cards */
+@keyframes scale-in {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out forwards;
+}
+
+/* Background flash animations for scan feedback */
+@keyframes flash-green {
+  0% {
+    background: linear-gradient(135deg, #2a2d3a, #1a1d26, #0f111a);
+  }
+  15% {
+    background: linear-gradient(135deg, #00ff41, #00e639, #00cc32);
+  }
+  30% {
+    background: linear-gradient(135deg, #2a2d3a, #1a1d26, #0f111a);
+  }
+  45% {
+    background: linear-gradient(135deg, #00ff41, #00e639, #00cc32);
+  }
+  60% {
+    background: linear-gradient(135deg, #2a2d3a, #1a1d26, #0f111a);
+  }
+  75% {
+    background: linear-gradient(135deg, #00ff41, #00e639, #00cc32);
+  }
+  100% {
+    background: linear-gradient(135deg, #2a2d3a, #1a1d26, #0f111a);
+  }
+}
+
+@keyframes flash-red {
+  0% {
+    background: linear-gradient(135deg, #2a2d3a, #1a1d26, #0f111a);
+  }
+  15% {
+    background: linear-gradient(135deg, #ff0040, #e6003a, #cc0033);
+  }
+  30% {
+    background: linear-gradient(135deg, #2a2d3a, #1a1d26, #0f111a);
+  }
+  45% {
+    background: linear-gradient(135deg, #ff0040, #e6003a, #cc0033);
+  }
+  60% {
+    background: linear-gradient(135deg, #2a2d3a, #1a1d26, #0f111a);
+  }
+  75% {
+    background: linear-gradient(135deg, #ff0040, #e6003a, #cc0033);
+  }
+  100% {
+    background: linear-gradient(135deg, #2a2d3a, #1a1d26, #0f111a);
+  }
+}
+
+.flash-green {
+  animation: flash-green 5s ease-in-out;
+}
+
+.flash-red {
+  animation: flash-red 5s ease-in-out;
+}</Action>
+
+/* Remove all glow-related classes */
+.shadow-mauve-glow {
+  box-shadow: 0 4px 12px rgba(188, 87, 255, 0.2);
+}
+
+.shadow-mauve-glow-strong {
+  box-shadow: 0 4px 16px rgba(188, 87, 255, 0.3);
+}
+
+/* WebView-specific optimizations */
+.webview {
+  /* Improve text rendering in WebView */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.basic-webview {
+  /* Disable expensive effects for basic WebViews */
+  --tw-backdrop-blur: none !important;
+}
+
+.basic-webview .glass {
+  /* Simplified glass effect for basic WebViews */
+  background: rgba(188, 87, 255, 0.15) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.basic-webview .glass-card {
+  /* Simplified card for basic WebViews */
+  background: rgba(26, 29, 38, 0.95) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.basic-webview .glass-button {
+  /* Simplified button for basic WebViews */
+  background: rgba(188, 87, 255, 0.25) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* WebView-safe animations */
+@media (prefers-reduced-motion: reduce) {
+  .webview * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Improve touch targets for WebView */
+.webview button,
+.webview input,
+.webview select {
+  min-height: 44px; /* Better touch targets */
+  touch-action: manipulation; /* Prevent zoom on double-tap */
+}
+
+/* WebView-specific loading states */
+.webview .loading-spinner {
+  /* Simpler spinner for WebView */
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid #ffffff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* WebView-safe focus styles */
+.webview input:focus,
+.webview button:focus,
+.webview select:focus {
+  outline: 2px solid rgba(188, 87, 255, 0.8);
+  outline-offset: 2px;
+}
+
+/* Improve scrolling performance in WebView */
+.webview {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: auto; /* Disable smooth scrolling for better performance */
+}
+
+/* WebView-safe gradients */
+.basic-webview .gradient-dark {
+  background: #1a1d26 !important; /* Fallback solid color */
+}
+
+.basic-webview .gradient-mauve {
+  background: #8b3dff !important; /* Fallback solid color */
+}
