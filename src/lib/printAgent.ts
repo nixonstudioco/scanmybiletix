@@ -77,7 +77,7 @@ export async function printReceipt(lines: string[], opts: PrintOptions = {}) {
     }
   } catch (error) {
     if (error instanceof TypeError && error.message.includes('fetch')) {
-      throw new Error("CORS Error: Local print agent needs to allow origin 'https://scan.melidom.ro'");
+      throw new Error("CORS Error: Local print agent needs to allow origin 'https://scan.mybiletix.com'");
     }
     throw error;
   }
