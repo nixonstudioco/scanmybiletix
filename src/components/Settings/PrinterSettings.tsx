@@ -512,7 +512,7 @@ const PrinterSettings: React.FC = () => {
                 <li>Asigurați-vă că agentul local rulează pe portul 17620</li>
                 <li>Verificați că API-ul este accesibil la http://127.0.0.1:17620</li>
                 <li>Verificați că endpoint-ul GET /health returnează {JSON.stringify({ok: true})}</li>
-                <li><strong>CORS:</strong> Adăugați 'https://scan.melidom.ro' în CORS allowed origins</li>
+                <li><strong>CORS:</strong> Adăugați 'https://scan.mybiletix.com' în CORS allowed origins</li>
                 <li>Testați din nou conexiunea</li>
               </ol>
             </div>
