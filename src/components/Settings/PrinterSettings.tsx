@@ -559,7 +559,54 @@ const PrinterSettings: React.FC = () => {
             <p className="text-red-300 font-semibold">Dacă primiți eroarea "401 Unauthorized", token-ul nu se potrivește!</p>
           </div>
         </div>
-      
+
+        <div className="mt-4 bg-purple-950/50 rounded-lg p-4 border border-purple-800/50">
+          <h4 className="text-purple-300 text-sm font-medium mb-2">📡 API Endpoint pentru Agent Local:</h4>
+          <div className="text-purple-200 text-sm space-y-3">
+            <div>
+              <p className="font-semibold mb-1">Endpoint:</p>
+              <div className="bg-purple-900/30 p-2 rounded font-mono text-xs">
+                POST http://127.0.0.1:17620/print/escpos
+              </div>
+            </div>
+
+            <div>
+              <p className="font-semibold mb-1">Headers:</p>
+              <div className="bg-purple-900/30 p-2 rounded font-mono text-xs">
+                Content-Type: application/json<br/>
+                X-Print-Token: &lt;&lt;fbbe3ad2e74c28d01b20db42c00969e59e1f5ccc58114f27&gt;&gt;
+              </div>
+            </div>
+
+            <div>
+              <p className="font-semibold mb-1">Body (JSON):</p>
+              <div className="bg-purple-900/30 p-2 rounded font-mono text-xs overflow-x-auto">
+                {`{
+  "lines": ["Line 1", "Line 2", "..."],
+  "cut": true,
+  "drawer": false
+}`}
+              </div>
+            </div>
+
+            <div>
+              <p className="font-semibold mb-1">Parametri:</p>
+              <ul className="list-disc list-inside ml-4 space-y-1 text-xs">
+                <li><code className="bg-purple-900/30 px-1 rounded">lines</code> (array) - Liniile de text pentru printare</li>
+                <li><code className="bg-purple-900/30 px-1 rounded">cut</code> (boolean) - Taie hârtia după printare (default: true)</li>
+                <li><code className="bg-purple-900/30 px-1 rounded">drawer</code> (boolean) - Deschide sertarul (default: false)</li>
+              </ul>
+            </div>
+
+            <div>
+              <p className="font-semibold mb-1">Health Check:</p>
+              <div className="bg-purple-900/30 p-2 rounded font-mono text-xs">
+                GET http://127.0.0.1:17620/health
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Test Print Button */}
         {localPrintStatus.isConnected && (
           <div className="flex justify-center space-x-4">
