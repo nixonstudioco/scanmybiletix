@@ -6,7 +6,7 @@
 export type PrintOptions = { cut?: boolean; drawer?: boolean };
 
 const BASE_URL = "http://127.0.0.1:17620";
-const TOKEN = "fbbe3ad2e74c28d01b20db42c00969e59e1f5ccc58114f27";
+const TOKEN = "<<fbbe3ad2e74c28d01b20db42c00969e59e1f5ccc58114f27>>";
 
 export async function isPrintAgentAvailable(timeoutMs = 1200): Promise<boolean> {
   try {
