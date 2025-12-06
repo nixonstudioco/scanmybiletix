@@ -535,10 +535,11 @@ const PrinterSettings: React.FC = () => {
           <h4 className="text-amber-300 text-sm font-medium mb-2">⚠️ Configurare CORS:</h4>
           <div className="text-amber-200 text-sm space-y-2">
             <p><strong>Important:</strong> Agentul local trebuie configurat să permită cereri de la:</p>
-            <div className="bg-amber-900/30 p-2 rounded font-mono text-xs">
-              https://scan.melidom.ro
+            <div className="bg-amber-900/30 p-2 rounded font-mono text-xs space-y-1">
+              <div>https://scan.mybiletix.com</div>
+              <div>http://localhost:5173</div>
             </div>
-            <p>Verificați configurația CORS în agentul local pentru a permite acest origin.</p>
+            <p>Verificați configurația CORS în agentul local pentru a permite aceste origins.</p>
           </div>
         </div>
         
