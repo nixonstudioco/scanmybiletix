@@ -4,7 +4,6 @@
  */
 
 import { localPrintService } from './localPrintService';
-import { printerDetectionService } from './printerDetectionService';
 
 export interface PrinterInfo {
   id: string;
@@ -222,20 +221,8 @@ class PrinterService {
 
   /**
    * Print content to selected printer
-   * Automatically checks printer connection before printing
    */
   async print(htmlContent: string): Promise<void> {
-    // Verify printer connection before attempting to print
-    const detectionResult = await printerDetectionService.verifyPrinterConnection();
-
-    if (!detectionResult.isPrinterConnected) {
-      throw new Error(`No printer connected: ${detectionResult.message}`);
-    }
-
-    if (!detectionResult.printingEnabled) {
-      throw new Error('Printing is disabled. Please connect a printer and try again.');
-    }
-
     // Always try local print server first
     const isLocalPrintAvailable = await localPrintService.checkConnection();
     if (isLocalPrintAvailable) {
@@ -249,8 +236,6 @@ class PrinterService {
     if (!this.selectedPrinter) {
       throw new Error('No printer selected and local print server not available');
     }
-
-    const printer = this.cachedPrinters.find(p => p.id === this.selectedPrinter);
 
     // If running in Electron, use native printing
     if (window.electronAPI) {
@@ -310,20 +295,9 @@ class PrinterService {
   }
 
   /**
-   * Test printer with connection verification
+   * Test printer
    */
   async testPrint(): Promise<void> {
-    // Verify printer connection first
-    const detectionResult = await printerDetectionService.verifyPrinterConnection();
-
-    if (!detectionResult.isPrinterConnected) {
-      throw new Error(`No printer connected: ${detectionResult.message}`);
-    }
-
-    if (!detectionResult.printingEnabled) {
-      throw new Error('Printing is disabled. Please connect a printer and try again.');
-    }
-
     // Try local print server first
     const isLocalPrintAvailable = await localPrintService.checkConnection();
     if (isLocalPrintAvailable) {
@@ -341,9 +315,9 @@ class PrinterService {
       <head>
         <title>Printer Test</title>
         <style>
-          body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+          body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
             text-align: center;
           }
           .test-content {
@@ -359,8 +333,7 @@ class PrinterService {
           <h2>QR Scan Printer Test</h2>
           <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
           <p><strong>Printer:</strong> ${this.getSelectedPrinterName()}</p>
-          <p><strong>Detection:</strong> ${detectionResult.detectionMethod}</p>
-          <p><strong>Printers Found:</strong> ${detectionResult.printerCount}</p>
+          <p><strong>Port:</strong> ${this.selectedUSBPort || 'Default'}</p>
           <hr>
           <p>✅ Printer test successful!</p>
           <p>If you can see this page printed, your printer is working correctly.</p>
@@ -415,35 +388,7 @@ class PrinterService {
         console.error('Error getting USB ports from system:', error);
       }
     }
-    return [];
-  }
-
-  /**
-   * Verify printer connection and return status
-   */
-  async verifyPrinterConnection() {
-    return await printerDetectionService.verifyPrinterConnection();
-  }
-
-  /**
-   * Check if printing is currently enabled
-   */
-  isPrintingEnabled(): boolean {
-    return printerDetectionService.isPrintingEnabled();
-  }
-
-  /**
-   * Request USB device access (for Web USB API)
-   */
-  async requestUSBAccess(): Promise<boolean> {
-    return await printerDetectionService.requestUSBDeviceAccess();
-  }
-
-  /**
-   * Clear printer detection cache
-   */
-  clearDetectionCache(): void {
-    printerDetectionService.clearCache();
+    return this.getAvailableUSBPorts();
   }
 }
 

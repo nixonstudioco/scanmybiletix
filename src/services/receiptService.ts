@@ -1,7 +1,6 @@
 import QRCode from 'qrcode';
 import JsBarcode from 'jsbarcode';
 import { localPrintService } from './localPrintService';
-import { printWithVerification } from '../utils/printerGuard';
 
 export interface ReceiptData {
   eventName: string;
@@ -727,29 +726,27 @@ class ReceiptService {
 
   // Print receipt using window.print()
   async printReceipt(receiptData: ReceiptData, showQRCode: boolean = true): Promise<boolean> {
-    // Wrap the entire print operation with printer verification
-    const result = await printWithVerification(async () => {
-      try {
-        // Try local print server first for direct printing
-        const isLocalPrintAvailable = await this.isLocalPrintAvailable();
-        if (isLocalPrintAvailable) {
-          console.log('Using local print server for direct thermal printing...');
-
-          try {
-            await localPrintService.printThermalReceipt({
-              eventName: receiptData.eventName,
-              eventDate: receiptData.eventDate,
-              ticketType: receiptData.entryType || 'STANDARD ENTRY',
-              ticketCode: receiptData.ticketCode,
-              scanTime: new Date().toLocaleString('ro-RO')
-            });
-            console.log('Receipt printed successfully via local print server');
-            return true;
-          } catch (printError) {
-            console.error('Local print server failed:', printError);
-            throw new Error(`Direct printing failed: ${(printError as Error).message}`);
-          }
+    try {
+      // Try local print server first for direct printing
+      const isLocalPrintAvailable = await this.isLocalPrintAvailable();
+      if (isLocalPrintAvailable) {
+        console.log('Using local print server for direct thermal printing...');
+        
+        try {
+          await localPrintService.printThermalReceipt({
+            eventName: receiptData.eventName,
+            eventDate: receiptData.eventDate,
+            ticketType: receiptData.entryType || 'STANDARD ENTRY',
+            ticketCode: receiptData.ticketCode,
+            scanTime: new Date().toLocaleString('ro-RO')
+          });
+          console.log('Receipt printed successfully via local print server');
+          return true;
+        } catch (printError) {
+          console.error('Local print server failed:', printError);
+          throw new Error(`Direct printing failed: ${(printError as Error).message}`);
         }
+      }
       
       const receiptHTML = await this.createReceiptHTML(receiptData, showQRCode);
       
@@ -790,14 +787,11 @@ class ReceiptService {
           resolve(true);
         }, 10000);
       });
-
-      } catch (error) {
-        console.error('Error printing receipt:', error);
-        throw error;
-      }
-    }, { showAlert: false, throwError: true });
-
-    return result !== null;
+      
+    } catch (error) {
+      console.error('Error printing receipt:', error);
+      throw error;
+    }
   }
 
   // Print QR-only ticket using window.print()
