@@ -1,7 +1,7 @@
 /**
  * Local Electron Print Agent client (ESC/POS)
  * Base: http://127.0.0.1:17620
- * Token: fbbe3ad2e74c28d01b20db42c00969e59e1f5ccc58114f27
+ * Token: <<fbbe3ad2e74c28d01b20db42c00969e59e1f5ccc58114f27>>
  */
 export type PrintOptions = { cut?: boolean; drawer?: boolean };
 
