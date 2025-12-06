@@ -1,0 +1,82 @@
+{
+  "hash": "b017db0a",
+  "configHash": "8546a0ab",
+  "lockfileHash": "5e20c930",
+  "browserHash": "66ff57ca",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "27f011d1",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "93bfeddb",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "cb8be960",
+      "needsInterop": false
+    },
+    "lucide-react": {
+      "src": "../../node_modules/lucide-react/dist/esm/lucide-react.js",
+      "file": "lucide-react.js",
+      "fileHash": "45aeda05",
+      "needsInterop": false
+    },
+    "@supabase/supabase-js": {
+      "src": "../../node_modules/@supabase/supabase-js/dist/module/index.js",
+      "file": "@supabase_supabase-js.js",
+      "fileHash": "dfd66d0e",
+      "needsInterop": false
+    },
+    "html5-qrcode": {
+      "src": "../../node_modules/html5-qrcode/esm/index.js",
+      "file": "html5-qrcode.js",
+      "fileHash": "d15c9a00",
+      "needsInterop": false
+    },
+    "qrcode": {
+      "src": "../../node_modules/qrcode/lib/browser.js",
+      "file": "qrcode.js",
+      "fileHash": "0063dc51",
+      "needsInterop": true
+    },
+    "jsbarcode": {
+      "src": "../../node_modules/jsbarcode/bin/JsBarcode.js",
+      "file": "jsbarcode.js",
+      "fileHash": "88d9bc22",
+      "needsInterop": true
+    },
+    "papaparse": {
+      "src": "../../node_modules/papaparse/papaparse.min.js",
+      "file": "papaparse.js",
+      "fileHash": "c0f79106",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "browser-VLKRZ7RP": {
+      "file": "browser-VLKRZ7RP.js"
+    },
+    "browser-B5UES2FC": {
+      "file": "browser-B5UES2FC.js"
+    },
+    "chunk-ZIYUGMGG": {
+      "file": "chunk-ZIYUGMGG.js"
+    },
+    "chunk-65KY755N": {
+      "file": "chunk-65KY755N.js"
+    },
+    "chunk-C5A7FNJB": {
+      "file": "chunk-C5A7FNJB.js"
+    },
+    "chunk-V4OQ3NZ2": {
+      "file": "chunk-V4OQ3NZ2.js"
+    }
+  }
+}
