@@ -59,14 +59,15 @@ export const supabaseService = {
     },
 
     async getByQrCode(qrCode: string): Promise<Ticket | null> {
+      const trimmedQrCode = qrCode.trim();
+
       const { data, error } = await supabase
         .from(TABLES.TICKETS)
         .select('*')
-        .eq('qrCode', qrCode)
-        .single();
-      
+        .or(`qrCode.eq.${trimmedQrCode},qrCode.eq.${trimmedQrCode}\n`)
+        .maybeSingle();
+
       if (error) {
-        if (error.code === 'PGRST116') return null; // Not found
         throw error;
       }
       return data;
@@ -360,26 +361,25 @@ export const supabaseService = {
   },
   
   // Add the core validateTicket method directly to supabaseService
-  async validateTicket(qrCode: string): Promise<{ 
-    valid: boolean; 
-    message: string; 
+  async validateTicket(qrCode: string): Promise<{
+    valid: boolean;
+    message: string;
     ticket?: Ticket;
   }> {
     try {
-      // 1. Get the ticket from database
+      const trimmedQrCode = qrCode.trim();
+
+      // 1. Get the ticket from database (check both with and without trailing newline)
       const { data: ticket, error: fetchError } = await supabase
         .from(TABLES.TICKETS)
         .select('*')
-        .eq('qrCode', qrCode)
-        .single();
-      
+        .or(`qrCode.eq.${trimmedQrCode},qrCode.eq.${trimmedQrCode}\n`)
+        .maybeSingle();
+
       if (fetchError) {
-        if (fetchError.code === 'PGRST116') { // Not found
-          return { valid: false, message: 'Ticket not found' };
-        }
         throw fetchError;
       }
-      
+
       if (!ticket) {
         return { valid: false, message: 'Ticket not found' };
       }
@@ -406,14 +406,14 @@ export const supabaseService = {
         entriesRemaining: ticket.entriesRemaining - 1,
         lastScanned: new Date().toISOString()
       };
-      
+
       const { data: updatedTicket, error: updateError } = await supabase
         .from(TABLES.TICKETS)
         .update(updatedTicketData)
-        .eq('qrCode', qrCode)
+        .eq('qrCode', ticket.qrCode)
         .select()
         .single();
-      
+
       if (updateError) throw updateError;
       
       return { 

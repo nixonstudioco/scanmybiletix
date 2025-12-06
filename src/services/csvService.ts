@@ -18,11 +18,11 @@ export const parseCSV = (file: File): Promise<Ticket[]> => {
             }
 
             return {
-              qrCode: row.qrCode,
-              entryName: row.entryName || 'Default Entry',
-              entriesRemaining: parseInt(row.entriesRemaining || '1', 10),
+              qrCode: (row.qrCode || '').trim(),
+              entryName: (row.entryName || 'Default Entry').trim(),
+              entriesRemaining: parseInt((row.entriesRemaining || '1').toString().trim(), 10),
               lastScanned: null,
-              club: row.club || 'Default Club'
+              club: (row.club || 'Default Club').trim()
             };
           });
           resolve(tickets);
