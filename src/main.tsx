@@ -4,16 +4,12 @@ import App from './App.tsx';
 import './index.css';
 import { initWebViewCompatibility } from './utils/webviewCompatibility';
 import { pwaService } from './services/pwaService';
-import { setPrintAgentToken } from './lib/printAgent';
 
 // Preload sound effects
 import './services/soundService';
 
 // Initialize WebView compatibility before React
 initWebViewCompatibility();
-
-// Initialize print agent token
-setPrintAgentToken('<<fbbe3ad2e74c28d01b20db42c00969e59e1f5ccc58114f27>>');
 
 // Enhanced PWA initialization
 if ('serviceWorker' in navigator && 'PushManager' in window && pwaService.isServiceWorkerSupported()) {
