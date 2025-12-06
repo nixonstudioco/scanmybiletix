@@ -6,7 +6,7 @@
 import { isPrintAgentAvailable, printReceipt, setPrintAgentToken, PrintOptions } from '../lib/printAgent';
 
 // Set the token on module import
-const TOKEN = '<<fbbe3ad2e74c28d01b20db42c00969e59e1f5ccc58114f27>>';
+const TOKEN = 'fbbe3ad2e74c28d01b20db42c00969e59e1f5ccc58114f27';
 setPrintAgentToken(TOKEN);
 
 class LocalPrintService {
