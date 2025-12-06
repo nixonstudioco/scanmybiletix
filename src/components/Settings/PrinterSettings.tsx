@@ -187,7 +187,7 @@ const PrinterSettings: React.FC = () => {
               <p className="font-semibold mb-1">Headers:</p>
               <div className="bg-cyan-900/30 p-2 rounded font-mono text-xs">
                 Content-Type: application/json<br/>
-                X-Print-Token: fbbe3ad2e74c28d01b20db42c00969e59e1f5ccc58114f27
+                X-Print-Token: <<fbbe3ad2e74c28d01b20db42c00969e59e1f5ccc58114f27>>
               </div>
             </div>
 
