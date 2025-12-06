@@ -58,46 +58,92 @@ class LocalPrintService {
     ticketCode: string;
     scanTime: string;
   }): string[] {
+    const ESC = '\x1B';
+    const INIT = '\x1b\x40';
+    const CENTER = '\x1b\x61\x01';
+    const LEFT = '\x1b\x61\x00';
+    const F_NORMAL = '\x1b\x21\x00';
+    const F_BOLD = '\x1b\x21\x08';
+    const F_LARGE = '\x1b\x21\x30';
+    const F_LARGE_BOLD = '\x1b\x21\x38';
+    const F_DBL_HEIGHT = '\x1b\x21\x10';
+    const F_DBL_WIDTH = '\x1b\x21\x20';
+
     const lines = [
-      // Initialize and center alignment
-      '\x1b\x40', // Initialize printer
-      '\x1b\x61\x01', // Center alignment
-      
-      // Event name (large, bold)
-      '\x1b\x21\x30', // Double size
+      INIT,
+      CENTER,
+      '',
+      // Event name - Large and bold
+      F_LARGE_BOLD,
       receiptData.eventName,
-      '\x1b\x21\x00', // Normal size
+      F_NORMAL,
       '',
+      F_BOLD,
       receiptData.eventDate,
+      F_NORMAL,
       '',
-      
-      // Separator
-      '================================',
+      '==========================================',
       '',
-      
-      // Ticket type section
+      // TIP BILET - Large and bold
+      F_LARGE_BOLD,
       'TIP BILET',
-      '\x1b\x21\x20', // Double width
+      F_NORMAL,
+      '',
+      F_DBL_WIDTH + F_BOLD,
       receiptData.ticketType,
-      '\x1b\x21\x00', // Reset
+      F_NORMAL,
       '',
-      `Scanat: ${receiptData.scanTime}`,
+      '==========================================',
       '',
-      
-      // Verification section
-      '\x1b\x21\x10', // Double height
-      'INTRARE VERIFICATA',
-      '\x1b\x21\x00', // Reset
+      // Scanned date and time - Bold
+      F_BOLD,
+      'DATA SI ORA SCANARE',
+      F_NORMAL,
       '',
-      'Acces permis',
-      `Bilet: ${receiptData.ticketCode}`,
+      F_DBL_HEIGHT,
+      receiptData.scanTime,
+      F_NORMAL,
       '',
-      
+      '==========================================',
+      '',
+      // INTRARE VERIFICATA - Large and bold
+      F_LARGE_BOLD,
+      'INTRARE',
+      'VERIFICATA',
+      F_NORMAL,
+      '',
+      F_LARGE,
+      '✓ ACCES PERMIS',
+      F_NORMAL,
+      '',
+      '==========================================',
+      '',
+      // Ticket details
+      LEFT,
+      F_BOLD,
+      'DETALII BILET:',
+      F_NORMAL,
+      '',
+      CENTER,
+      `Cod: ${receiptData.ticketCode}`,
+      '',
+      F_BOLD,
+      'Status: VALIDAT',
+      F_NORMAL,
+      '',
+      '==========================================',
+      '',
       // Footer
-      '================================',
-      'Bon de verificare intrare',
+      F_NORMAL,
+      'BON DE VERIFICARE INTRARE',
       'Valabil doar pentru data evenimentului',
+      '',
       `Generat: ${new Date().toLocaleString('ro-RO')}`,
+      '',
+      F_BOLD,
+      'VA MULTUMIM!',
+      F_NORMAL,
+      '',
       '',
       ''
     ];
