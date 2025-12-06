@@ -724,188 +724,63 @@ class ReceiptService {
     }
   }
 
-  // Print receipt using window.print()
+  // Print receipt using local print agent (silent printing)
   async printReceipt(receiptData: ReceiptData, showQRCode: boolean = true): Promise<boolean> {
     try {
-      // Try local print server first for direct printing
+      // Check if local print server is available
       const isLocalPrintAvailable = await this.isLocalPrintAvailable();
-      if (isLocalPrintAvailable) {
-        console.log('Using local print server for direct thermal printing...');
-        
-        try {
-          await localPrintService.printThermalReceipt({
-            eventName: receiptData.eventName,
-            eventDate: receiptData.eventDate,
-            ticketType: receiptData.entryType || 'STANDARD ENTRY',
-            ticketCode: receiptData.ticketCode,
-            scanTime: new Date().toLocaleString('ro-RO')
-          });
-          console.log('Receipt printed successfully via local print server');
-          return true;
-        } catch (printError) {
-          console.error('Local print server failed:', printError);
-          throw new Error(`Direct printing failed: ${(printError as Error).message}`);
-        }
+
+      if (!isLocalPrintAvailable) {
+        console.warn('Local print agent not available - skipping print');
+        return false;
       }
-      
-      const receiptHTML = await this.createReceiptHTML(receiptData, showQRCode);
-      
-      // Create a new window for printing
-      const printWindow = window.open('', '_blank', 'width=400,height=600');
-      
-      if (!printWindow) {
-        throw new Error('Could not open print window. Please allow popups for this site.');
-      }
-      
-      // Write the HTML to the print window
-      printWindow.document.write(receiptHTML);
-      printWindow.document.close();
-      
-      // Wait for images to load
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Set up print event listeners
-      return new Promise((resolve) => {
-        const handleAfterPrint = () => {
-          printWindow.removeEventListener('afterprint', handleAfterPrint);
-          printWindow.close();
-          resolve(true);
-        };
-        
-        printWindow.addEventListener('afterprint', handleAfterPrint);
-        
-        // Focus the print window and trigger print
-        printWindow.focus();
-        printWindow.print();
-        
-        // Fallback timeout to close window
-        setTimeout(() => {
-          printWindow.removeEventListener('afterprint', handleAfterPrint);
-          if (!printWindow.closed) {
-            printWindow.close();
-          }
-          resolve(true);
-        }, 10000);
+
+      console.log('Using local print agent for silent thermal printing...');
+
+      await localPrintService.printThermalReceipt({
+        eventName: receiptData.eventName,
+        eventDate: receiptData.eventDate,
+        ticketType: receiptData.entryType || 'STANDARD ENTRY',
+        ticketCode: receiptData.ticketCode,
+        scanTime: new Date().toLocaleString('ro-RO')
       });
-      
+
+      console.log('Receipt printed successfully via local print agent');
+      return true;
+
     } catch (error) {
-      console.error('Error printing receipt:', error);
-      throw error;
+      console.error('Error printing receipt via local print agent:', error);
+      return false;
     }
   }
 
-  // Print QR-only ticket using window.print()
+  // Print QR-only ticket using local print agent (silent printing)
   async printQRTicket(ticketData: QRTicketData): Promise<boolean> {
     try {
-      // Try local print server first for QR ticket printing
+      // Check if local print server is available
       const isLocalPrintAvailable = await this.isLocalPrintAvailable();
-      if (isLocalPrintAvailable) {
-        console.log('Using local print server for QR ticket printing...');
-        
-        try {
-          await localPrintService.printThermalReceipt({
-            eventName: ticketData.eventName,
-            eventDate: ticketData.eventDate,
-            ticketType: 'VERIFIED ENTRY',
-            ticketCode: ticketData.ticketCode,
-            scanTime: new Date().toLocaleString('ro-RO')
-          });
-          console.log('QR ticket printed successfully via local print server');
-          return true;
-        } catch (printError) {
-          console.error('Local print server QR ticket printing failed:', printError);
-          throw new Error(`Direct QR ticket printing failed: ${(printError as Error).message}`);
-        }
+
+      if (!isLocalPrintAvailable) {
+        console.warn('Local print agent not available - skipping QR ticket print');
+        return false;
       }
-      
-      // Create a simple scan verification receipt
-      const receiptData = {
+
+      console.log('Using local print agent for QR ticket printing...');
+
+      await localPrintService.printThermalReceipt({
         eventName: ticketData.eventName,
         eventDate: ticketData.eventDate,
-        paymentMethod: 'CASH' as const,
+        ticketType: 'VERIFIED ENTRY',
         ticketCode: ticketData.ticketCode,
-        entryType: 'VERIFIED ENTRY',
-        quantity: 1,
-        totalAmount: 0,
-        ean13Barcode: '1234567890128',
-        logoUrl: ticketData.logoUrl
-      };
-      
-      const ticketHTML = await this.createReceiptHTML(receiptData, true);
-      
-      // Create a new window for printing
-      const printWindow = window.open('', '_blank', 'width=400,height=600');
-      
-      if (!printWindow) {
-        console.warn('Print window blocked by popup blocker, trying alternative method...');
-        
-        // Try alternative approach: create a blob and open it
-        try {
-          const blob = new Blob([ticketHTML], { type: 'text/html' });
-          const url = URL.createObjectURL(blob);
-          const newWindow = window.open(url, '_blank');
-          
-          if (!newWindow) {
-            // Last resort: print in current window
-            const originalContent = document.body.innerHTML;
-            document.body.innerHTML = ticketHTML;
-            window.print();
-            document.body.innerHTML = originalContent;
-            return true;
-          }
-          
-          // Clean up blob URL after a delay
-          setTimeout(() => URL.revokeObjectURL(url), 30000);
-          
-          return new Promise((resolve) => {
-            const checkClosed = () => {
-              if (newWindow.closed) {
-                resolve(true);
-              } else {
-                setTimeout(checkClosed, 1000);
-              }
-            };
-            checkClosed();
-          });
-        } catch (blobError) {
-          throw new Error('Could not print receipt. Please allow popups for this site or use QZ Tray for direct printing.');
-        }
-      }
-      
-      // Write the HTML to the print window
-      printWindow.document.write(ticketHTML);
-      printWindow.document.close();
-      
-      // Wait for images to load
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Set up print event listeners
-      return new Promise((resolve) => {
-        const handleAfterPrint = () => {
-          printWindow.removeEventListener('afterprint', handleAfterPrint);
-          printWindow.close();
-          resolve(true);
-        };
-        
-        printWindow.addEventListener('afterprint', handleAfterPrint);
-        
-        // Focus the print window and trigger print
-        printWindow.focus();
-        printWindow.print();
-        
-        // Fallback timeout to close window
-        setTimeout(() => {
-          printWindow.removeEventListener('afterprint', handleAfterPrint);
-          if (!printWindow.closed) {
-            printWindow.close();
-          }
-          resolve(true);
-        }, 10000);
+        scanTime: new Date().toLocaleString('ro-RO')
       });
-      
+
+      console.log('QR ticket printed successfully via local print agent');
+      return true;
+
     } catch (error) {
-      console.error('Error printing QR ticket:', error);
-      throw error;
+      console.error('Error printing QR ticket via local print agent:', error);
+      return false;
     }
   }
 
